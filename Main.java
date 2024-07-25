@@ -12,6 +12,10 @@ import java.util.stream.Collectors;
 class AgeCounter{
     static int number=0;
     int age;
+    AgeCounter(int age){
+        this.age=age;
+        number++;
+    }
     public String toString(){return String.format("<AgeCounter: %d %d>",age,number);}
 }
 
@@ -41,7 +45,7 @@ public class Main{
         o.ifPresentOrElse( p -> {System.out.println(p);}, ()->{System.out.println("not found!");})  ;
 
         //2.3.
-        double v  = l.stream().filter( p -> p.getCity().equals("New York") ).map( p -> {AgeCounter ac=new AgeCounter(); ac.age=p.getAge(); AgeCounter.number++; return ac;} ).collect(Collectors.toList()).stream() .peek( System.out::println )  .map( c -> 1.0*c.age/AgeCounter.number ) .reduce( (a,b) -> a+b ) .orElse(0.0);
+        double v  = l.stream().filter( p -> p.getCity().equals("New York") ).map( p -> new AgeCounter(p.getAge()) ).collect(Collectors.toList()).stream() .peek( System.out::println )  .map( c -> 1.0*c.age/AgeCounter.number ) .reduce( (a,b) -> a+b ) .orElse(0.0);
         System.out.println(v);
 /**/
 
